@@ -1,0 +1,73 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "animals: Run orange animals Consumer",
+      "type": "shell",
+      "command": "python tutorial_topic/receive_orange_animals.py",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "animals: Run rabbit or lazy animals Consumer",
+      "type": "shell",
+      "command": "python tutorial_topic/receive_rabbit_or_lazy_animals.py",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "animals: Run topic animals Producer",
+      "type": "shell",
+      "command": "python tutorial_topic/emit_animal_topic.py",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "entity ex: Run user events Consumer",
+      "type": "shell",
+      "command": "python ex/receive_user_events.py",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "entity ex: Run circle events Consumer",
+      "type": "shell",
+      "command": "python ex/receive_circle_events.py",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    },
+    {
+      "label": "entity ex: Run topic entities Producer",
+      "type": "shell",
+      "command": "python ex/emit_entity_topic.py",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      }
+    }
+  ]
+}
