@@ -1,0 +1,67 @@
+---
+title: RabbitMQ construction flow
+---
+graph LR
+    CONN["Connection(
+    host,
+    credential)"]
+    CH[Channel]
+    EX["Exchange(
+    exchange_name,
+    exchange_type)"]
+    BIND["Binding(
+    exchange_name,
+    queue_name,
+    routing_key)"]
+    Q["Queue(queue_name)"]
+    P["Publish(
+    exchange,
+    routing_key,
+    body)"]
+    MSG["message body(
+    like JSON)"]
+    C["Consume(
+    queue,
+    on_message_callback)"]
+    CB["callback(
+    channel,
+    method,
+    properties,
+    body)"]
+
+    subgraph "Both(
+    Publisher and Consumer)"
+        CONN
+        CH
+        EX
+    end
+    subgraph Publisher
+        P
+        MSG
+    end
+    subgraph Consumer
+        C
+        Q
+        CB
+        BIND
+    end
+
+    CONN --> |1.creates| CH
+    CH --> |2.exchange_declare| EX
+    CH --- |P1.basic_publish| P
+    P --> |"bind to message
+     with exact match routing key"| EX
+    P --> |"bind to exchange
+     with exact match routing key"| MSG
+    MSG --> |"publish message"| EX
+    CH --> |C1.queue_declare| Q
+    CH --> |C2.queue_bind| BIND
+    BIND --> |"bind to queue
+     with pattern match routing key"| EX
+    BIND --> |"bind to exchange
+     with pattern match routing key"| Q
+    EX --> |deliver to| Q
+    CH --> |C3.basic_consume| C
+    C --> |bind to callback| Q
+    C --> |bind to queue|CB
+    Q --> |consume message| CB

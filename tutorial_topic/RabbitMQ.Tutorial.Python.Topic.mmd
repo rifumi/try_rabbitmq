@@ -1,0 +1,72 @@
+---
+title: RabbitMQ.Tutorial.Python.Topic
+---
+graph LR
+    subgraph Producer
+        A[Producer]
+    end
+    subgraph Exchange
+        B{{TOPIC X}}
+    end
+    subgraph message.exact_routing_key
+        direction LR
+        BK1["[no.1]
+        quick.orange.rabbit"]
+        BK2["[no.2]
+        lazy.orange.elephant"]
+        BK3["[no.3]
+        quick.orange.fox"]
+        BK4["[no.4]
+        lazy.brown.fox"]
+        BK5["[no.5]
+        lazy.pink.rabbit"]
+        BK6["[no.6]
+        quick.brown.fox"]
+        BK7["[no.7]
+        orange"]
+        BK8["[no.8]
+        quick.orange.new.rabbit"]
+        BK9["[no.9]
+        lazy.orange.new.rabbit"]
+    end
+    subgraph "ch.queue_bind.
+    ptn_match_routing_keys"
+        ORANGE[*.orange.*]
+        RABBIT[*.*.rabbit]
+        LAZY[lazy.#]
+    end
+    subgraph Queue
+        Q1["Queue1"]
+        Q2["Queue2"]
+    end
+    subgraph Consumer
+        E[Consumer1]
+        F[Consumer2]
+    end
+
+    %% A --> |Message| B
+    A --> message.exact_routing_key
+    message.exact_routing_key --> B
+
+    B --> |No.1| ORANGE
+    B --> |No.1| RABBIT
+    B --> |No.2| ORANGE
+    B --> |No.2| LAZY
+    B --> |No.3| ORANGE
+    B --> |No.4| LAZY
+    B --> |No.5| LAZY
+    B --> |No.5| RABBIT
+    B --> |No.6| G[Discarded]
+    B --> |No.7| G[Discarded]
+    B --> |No.8| G[Discarded]
+    B --> |No.9| LAZY
+
+    ORANGE --> Q1
+    RABBIT --> Q2
+    LAZY --> Q2
+
+    Q1 --> E
+    Q2 --> F
+
+    classDef discarded fill:#f96,stroke:#333,stroke-width:2px;
+    G[Discarded]:::discarded

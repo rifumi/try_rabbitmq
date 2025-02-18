@@ -1,0 +1,54 @@
+---
+title: MY.Python.Topic.example
+---
+graph LR
+    subgraph Producer
+        P[Producer]
+    end
+    subgraph Exchange
+        X{{TOPIC X}}
+    end
+    subgraph message.exact_routing_key
+        direction LR
+        BK1["[no.1]
+        user.created"]
+        BK2["[no.2]
+        user.updated"]
+        BK3["[no.3]
+        user.deleted"]
+        BK4["[no.4]
+        circle.created"]
+        BK5["[no.5]
+        circle.updated"]
+        BK6["[no.6]
+        circle.deleted"]
+    end
+    subgraph queue_bind.ptn_routing_keys
+        ENTITY1["user.*"]
+        ENTITY2["circle.*"]
+    end
+    subgraph Queue
+        Q1["Queue1"]
+        Q2["Queue2"]
+    end
+    subgraph Consumer
+        C1["Consumer1"]
+        C2["Consumer2"]
+    end
+
+    %% A --> |Message| B
+    P --- message.exact_routing_key
+    message.exact_routing_key --> X
+
+    X --> |No.1| ENTITY1
+    X --> |No.2| ENTITY1
+    X --> |No.3| ENTITY1
+    X --> |No.4| ENTITY2
+    X --> |No.5| ENTITY2
+    X --> |No.6| ENTITY2
+
+    ENTITY1 --> Q1
+    ENTITY2 --> Q2
+
+    Q1 --> C1
+    Q2 --> C2
