@@ -1,0 +1,74 @@
+---
+title: My.Python.Topic.my.ex1
+---
+graph LR
+    subgraph Producer
+        A[Producer]
+    end
+    subgraph Exchange
+        B{{TOPIC X}}
+    end
+    subgraph message.exact_routing_key
+        direction LR
+        BK1["[no.1]
+        Entity1.Created"]
+        BK2["[no.2]
+        Entity1.Updated"]
+        BK3["[no.3]
+        Entity1.Deleted"]
+        BK4["[no.4]
+        Entity2.Created"]
+        BK5["[no.5]
+        Entity2.Updated"]
+        BK6["[no.6]
+        Entity2.Deleted"]
+    end
+    subgraph queue_bind.ptn_routing_keys
+        ENTITY1C["Entity1.Created"]
+        ENTITY1U["Entity1.Updated"]
+        ENTITY1D["Entity1.Deleted"]
+        ENTITY2C["Entity2.Created"]
+        ENTITY2U["Entity2.Updated"]
+        ENTITY2D["Entity2.Deleted"]
+    end
+    subgraph Queue
+        Q1C["Queue1C"]
+        Q1U["Queue1U"]
+        Q1D["Queue1D"]
+        Q2C["Queue2C"]
+        Q2U["Queue2U"]
+        Q2D["Queue2D"]
+    end
+    subgraph Consumer
+        C1C["Consumer1C"]
+        C1U["Consumer1U"]
+        C1D["Consumer1D"]
+        C2C["Consumer2C"]
+        C2U["Consumer2U"]
+        C2D["Consumer2D"]
+    end
+
+    %% A --> |Message| B
+    A --- message.exact_routing_key
+    message.exact_routing_key --> B
+
+    B --> |No.1| ENTITY1C
+    B --> |No.2| ENTITY1U
+    B --> |No.3| ENTITY1D
+    B --> |No.4| ENTITY2C
+    B --> |No.5| ENTITY2U
+    B --> |No.6| ENTITY2D
+
+    ENTITY1C --> Q1C
+    ENTITY1U --> Q1U
+    ENTITY1D --> Q1D
+    ENTITY2C --> Q2C
+    ENTITY2U --> Q2U
+    ENTITY2D --> Q2D
+
+    Q1C --> C1C
+    Q1U --> C1U
+    Q1D --> C1D
+    Q2C --> C2C
+    Q2U --> C2U
+    Q2D --> C2D
