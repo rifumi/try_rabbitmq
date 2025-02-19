@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from start_consuming_target import start_consuming_target
 
 

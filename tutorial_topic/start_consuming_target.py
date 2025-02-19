@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import json
 from aio_pika import ExchangeType
 from utils.get_connection import get_connection

@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 from ex.start_consuming_target import start_consuming_target
 
 
