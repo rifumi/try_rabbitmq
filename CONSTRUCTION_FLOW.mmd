@@ -65,3 +65,8 @@ graph LR
     C --> |bind to callback| Q
     C --> |bind to queue|CB
     Q --> |consume message| CB
+
+    subgraph processing_order
+        ROOT["n.process"] --> PP["Pn.process"]
+        ROOT --> CP["Cn.process"]
+    end
